@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>IELTS Writing Trainer</title>
+  <title>IELTS Writing – Secure Test</title>
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
@@ -23,12 +23,12 @@
       display: flex;
       justify-content: center;
       align-items: stretch;
-      padding: 16px;
+      padding: 12px;
     }
 
     .app {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       background: #0f172a;
       border-radius: 16px;
       padding: 16px 14px 20px;
@@ -41,7 +41,7 @@
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       border-bottom: 1px solid rgba(148, 163, 184, 0.4);
       padding-bottom: 8px;
       margin-bottom: 4px;
@@ -60,10 +60,156 @@
       margin-top: 2px;
     }
 
-    .mode-buttons {
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(260px, 0.9fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+
+      .app {
+        padding: 12px 10px 14px;
+        border-radius: 12px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .title {
+        font-size: 1.1rem;
+      }
+
+      .subtitle {
+        font-size: 0.78rem;
+      }
+
+      .layout {
+        gap: 12px;
+      }
+    }
+
+    .tasks-column {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 14px;
+      padding: 14px 12px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.36);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      color: #bae6fd;
+      white-space: nowrap;
+    }
+
+    .question {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #d1d5db;
+      white-space: pre-line;
+    }
+
+    .question img {
+      max-width: 100%;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .textarea-wrapper {
+      position: relative;
+      margin-top: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 320px; /* higher writing area */
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.9),
+        #020617
+      );
+      color: #e5e7eb;
+      padding: 10px 11px 26px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      outline: none;
+    }
+
+    @media (max-width: 900px) {
+      textarea {
+        min-height: 280px;
+      }
+    }
+
+    @media (max-height: 750px) and (max-width: 900px) {
+      textarea {
+        min-height: 220px;
+      }
+    }
+
+    textarea:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    }
+
+    textarea:disabled {
+      background: #111827;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .word-count {
+      position: absolute;
+      bottom: 6px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .side-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .btn {
@@ -110,133 +256,6 @@
       min-height: 34px;
     }
 
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 8px;
-      }
-
-      .app {
-        padding: 12px 10px 14px;
-        border-radius: 12px;
-      }
-
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .title {
-        font-size: 1.1rem;
-      }
-
-      .subtitle {
-        font-size: 0.78rem;
-      }
-
-      .layout {
-        gap: 12px;
-      }
-    }
-
-    .card {
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 14px;
-      padding: 14px 12px 16px;
-      border: 1px solid rgba(148, 163, 184, 0.36);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(56, 189, 248, 0.2);
-      border: 1px solid rgba(56, 189, 248, 0.6);
-      color: #bae6fd;
-      white-space: nowrap;
-    }
-
-    .question {
-      font-size: 0.9rem;
-      line-height: 1.45;
-      color: #d1d5db;
-      white-space: pre-line;
-    }
-
-    .textarea-wrapper {
-      position: relative;
-      margin-top: 4px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 260px;
-      resize: vertical;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: radial-gradient(
-        circle at top left,
-        rgba(15, 23, 42, 0.9),
-        #020617
-      );
-      color: #e5e7eb;
-      padding: 10px 11px 26px;
-      font-size: 0.9rem;
-      line-height: 1.4;
-      outline: none;
-    }
-
-    @media (max-height: 750px) and (max-width: 900px) {
-      textarea {
-        min-height: 200px;
-      }
-    }
-
-    textarea:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
-    }
-
-    .word-count {
-      position: absolute;
-      bottom: 6px;
-      right: 10px;
-      font-size: 0.75rem;
-      color: #9ca3af;
-    }
-
-    .side-section {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
     .stat-row {
       display: flex;
       justify-content: space-between;
@@ -267,41 +286,11 @@
       font-size: 0.8rem;
       color: #9ca3af;
       margin-top: 4px;
+      min-height: 1.2em;
     }
 
     .status span {
       color: #22c55e;
-    }
-
-    .sample-box {
-      max-height: 180px;
-      overflow: auto;
-      font-size: 0.8rem;
-      line-height: 1.4;
-      color: #cbd5f5;
-      padding: 8px 10px;
-      border-radius: 10px;
-      background: radial-gradient(
-        circle at top left,
-        rgba(56, 189, 248, 0.14),
-        rgba(15, 23, 42, 0.96)
-      );
-      border: 1px solid rgba(148, 163, 184, 0.3);
-    }
-
-    @media (max-width: 600px) {
-      .sample-box {
-        max-height: 140px;
-      }
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     .small-text {
@@ -313,6 +302,7 @@
       display: flex;
       gap: 6px;
       margin-top: 6px;
+      flex-wrap: wrap;
     }
 
     .input-row input {
@@ -332,6 +322,15 @@
       box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
     }
 
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .message {
       font-size: 0.8rem;
       margin-top: 4px;
@@ -346,13 +345,20 @@
       color: #fca5a5;
     }
 
-    @media (max-width: 420px) {
-      .mode-buttons {
-        width: 100%;
-      }
+    .rules-list {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      line-height: 1.45;
+      padding-left: 16px;
+    }
 
-      .mode-buttons .btn {
-        flex: 1;
+    .rules-list li {
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 420px) {
+      .input-row {
+        flex-direction: column;
       }
     }
   </style>
@@ -361,169 +367,207 @@
   <div class="app">
     <header class="header">
       <div>
-        <div class="title">IELTS Writing Trainer</div>
+        <div class="title">IELTS Writing – Secure Online Test</div>
         <div class="subtitle">
-          Task 1 &amp; Task 2 · Timer · Word count · Send essays to Telegram
+          Task 1 &amp; Task 2 · Anti-cheat · Timer · Telegram reporting
         </div>
-      </div>
-      <div class="mode-buttons">
-        <button class="btn small" data-mode="task1">Task 1 (Academic)</button>
-        <button class="btn small" data-mode="task2">Task 2 (Essay)</button>
       </div>
     </header>
 
     <main class="layout">
-      <section class="card">
-        <div class="card-header">
-          <div class="card-title" id="taskTitle">Task 2 – Opinion Essay</div>
-          <div class="badge" id="badgeInfo">40 minutes · 250+ words</div>
-        </div>
-        <div class="question" id="questionText">
-          Newspapers have an enormous influence on people’s opinions and ideas.
-          What are the reasons for this? Is this a positive or negative
-          development?
-        </div>
+      <!-- LEFT: TASKS -->
+      <section class="tasks-column">
+        <!-- TASK 1 -->
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Task 1 – Line Graph (150+ words)</div>
+            <div class="badge">Recommended: 20 minutes</div>
+          </div>
+          <div class="question">
+The line graph shows the number of people who used different communication services in the world.
 
-        <div class="textarea-wrapper">
-          <textarea
-            id="essayInput"
-            placeholder="Write your essay here..."
-          ></textarea>
-          <div class="word-count" id="wordCount">0 words</div>
-        </div>
+Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+            <br />
+            <br />
+            <span class="small-text">
+              You can also view the original image if needed:
+              <a href="https://ibb.co/r2jc8yyz" target="_blank" style="color:#38bdf8;">open graph</a>
+            </span>
+            <br />
+            <img
+              src="https://i.ibb.co/4RqYvNNX/IMAGE-2025-12-04-17-53-20.jpg"
+              alt="Line graph – communication services"
+            />
+          </div>
+
+          <div class="textarea-wrapper">
+            <textarea
+              id="task1Essay"
+              placeholder="Write your Task 1 answer here..."
+              disabled
+            ></textarea>
+            <div class="word-count" id="wordCount1">0 words</div>
+          </div>
+        </article>
+
+        <!-- TASK 2 -->
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Task 2 – Opinion Essay (250+ words)</div>
+            <div class="badge">Recommended: 40 minutes</div>
+          </div>
+          <div class="question">
+If a product is good or it meets people's needs, people will buy it, so advertising is unnecessary.
+
+To what extent do you agree or disagree?
+          </div>
+
+          <div class="textarea-wrapper">
+            <textarea
+              id="task2Essay"
+              placeholder="Write your Task 2 answer here..."
+              disabled
+            ></textarea>
+            <div class="word-count" id="wordCount2">0 words</div>
+          </div>
+        </article>
       </section>
 
+      <!-- RIGHT: CONTROLS, RULES, SEND -->
       <aside class="side-section">
-        <div class="card">
+        <!-- STUDENT INFO & TIMER -->
+        <section class="card">
           <div class="card-header">
-            <div class="card-title">Timer &amp; Stats</div>
+            <div class="card-title">Student Info &amp; Test Control</div>
           </div>
-          <div class="stat-row">
-            <div class="stat-label">Mode</div>
-            <div id="modeLabel">Task 2</div>
+
+          <div class="small-text">
+            Please enter your name and group, then click <strong>Start test</strong>.
+            You cannot write before starting.
           </div>
-          <div class="stat-row">
-            <div class="stat-label">Target words</div>
-            <div id="wordTarget">250+</div>
+
+          <div class="input-row">
+            <input id="studentName" type="text" placeholder="Full name" />
+            <input id="studentGroup" type="text" placeholder="Group" />
           </div>
-          <div class="stat-row">
-            <div class="stat-label">Time left</div>
-            <div class="timer" id="timerDisplay">40:00</div>
+
+          <div style="margin-top: 10px; display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn primary small" id="startTestBtn">
+              Start test
+            </button>
+            <button class="btn small" id="pauseTimerBtn" disabled>
+              Pause timer
+            </button>
+            <button class="btn small" id="resetTestBtn">
+              Reset test
+            </button>
           </div>
-          <div class="stat-row">
-            <div class="stat-label">Time used</div>
-            <div id="timeUsed">0 min</div>
+
+          <div style="margin-top: 8px;">
+            <div class="stat-row">
+              <div class="stat-label">Total time</div>
+              <div>60 minutes</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-label">Time left</div>
+              <div class="timer" id="timerDisplay">60:00</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-label">Time used</div>
+              <div id="timeUsed">0 min</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-label">Violations</div>
+              <div id="violationCountLabel">0</div>
+            </div>
           </div>
+
           <div class="status" id="statusText">
-            Status: <span>Ready</span>
+            Status: <span>Waiting for student</span>
           </div>
-          <div
-            style="
-              margin-top: 10px;
-              display: flex;
-              gap: 6px;
-              flex-wrap: wrap;
-            "
-          >
-            <button class="btn small primary" id="startTimerBtn">Start</button>
-            <button class="btn small" id="pauseTimerBtn">Pause</button>
-            <button class="btn small" id="resetTimerBtn">Reset</button>
-          </div>
-        </div>
+        </section>
 
-        <div class="card">
+        <!-- RULES -->
+        <section class="card">
           <div class="card-header">
-            <div class="card-title">Quick model / ideas</div>
+            <div class="card-title">Test Rules</div>
           </div>
-          <div class="sample-box" id="sampleBox">
-            <strong>Idea structure (Task 2):</strong>
-            <br /><br />
-            ➤ Introduction: paraphrase the topic + opinion<br />
-            ➤ Body 1: reasons why newspapers influence people<br />
-            ➤ Body 2: explain why this is positive / negative<br />
-            ➤ Conclusion: summary + clear opinion<br /><br />
-            Use linking phrases: in addition, moreover, on the other hand, as a
-            result, in conclusion...
-          </div>
-        </div>
+          <ul class="rules-list">
+            <li>Do not switch tabs, windows, or apps during the test.</li>
+            <li>Copy–paste is completely disabled.</li>
+            <li>Very fast writing (e.g. 15+ words in 1 second) is a violation.</li>
+            <li>First violation: you get a warning.</li>
+            <li>Second violation: your test is restarted.</li>
+            <li>All violations are reported to the teacher via Telegram.</li>
+          </ul>
+        </section>
 
-        <div class="card">
+        <!-- SEND -->
+        <section class="card">
           <div class="card-header">
             <div class="card-title">Send to teacher (Telegram)</div>
           </div>
           <div class="small-text">
-            Your essay will be sent as a single message to your teacher’s
-            Telegram.
+            When you finish both tasks, press <strong>Send answers</strong>.
+            Your name, group, answers, time, and violations will be sent.
           </div>
-          <div class="input-row">
-            <input
-              id="studentName"
-              type="text"
-              placeholder="Your name (optional)"
-            />
-          </div>
+
           <div class="footer-row">
-            <button class="btn primary" id="sendBtn">Send essay</button>
+            <button class="btn primary" id="sendBtn" disabled>
+              Send answers
+            </button>
             <div class="small-text" id="sendStatusSmall">Not sent yet</div>
           </div>
           <div class="message" id="sendMessage"></div>
-        </div>
+        </section>
       </aside>
     </main>
   </div>
 
   <script>
-    // ---------------- CONFIG ----------------
-    const TASKS = {
-      task1: {
-        title: "Task 1 – Academic (Graph / Chart)",
-        badge: "20 minutes · 150+ words",
-        modeLabel: "Task 1",
-        targetWords: "150+",
-        defaultSeconds: 20 * 60,
-        question: `The diagram illustrates different stages which are required to generate hydro-electric power using water.
+    // ------------ CONFIG ------------
+    const TEST_DURATION_SECONDS = 60 * 60; // 60 minutes
+    const FAST_WORD_THRESHOLD = 15; // 15 words in <=1 second
+    const MAX_WARNINGS_BEFORE_RESET = 2;
 
-Summarise the information by selecting and reporting the main features, and make comparisons where relevant.`,
-      },
-      task2: {
-        title: "Task 2 – Opinion Essay",
-        badge: "40 minutes · 250+ words",
-        modeLabel: "Task 2",
-        targetWords: "250+",
-        defaultSeconds: 40 * 60,
-        question: `Newspapers have an enormous influence on people’s opinions and ideas.
-What are the reasons for this? Is this a positive or negative development?`,
-      },
-    };
-
-    // ---------------- STATE ----------------
-    let currentMode = "task2";
-    let timerSeconds = TASKS[currentMode].defaultSeconds;
+    // ------------ STATE ------------
+    let timerSeconds = TEST_DURATION_SECONDS;
     let timerInterval = null;
     let totalUsedSeconds = 0;
+    let testStarted = false;
+    let violationCount = 0;
+    let violationsLog = [];
     let lastTickTime = null;
+    let lastFocusViolationTime = 0;
 
-    // ---------------- ELEMENTS ----------------
-    const modeButtons = document.querySelectorAll("[data-mode]");
-    const taskTitleEl = document.getElementById("taskTitle");
-    const badgeInfoEl = document.getElementById("badgeInfo");
-    const questionTextEl = document.getElementById("questionText");
-    const essayInputEl = document.getElementById("essayInput");
-    const wordCountEl = document.getElementById("wordCount");
-    const modeLabelEl = document.getElementById("modeLabel");
-    const wordTargetEl = document.getElementById("wordTarget");
+    const fastWriteState = {
+      task1: { lastCount: 0, lastTime: Date.now() },
+      task2: { lastCount: 0, lastTime: Date.now() },
+    };
+
+    // ------------ ELEMENTS ------------
+    const task1EssayEl = document.getElementById("task1Essay");
+    const task2EssayEl = document.getElementById("task2Essay");
+    const wordCount1El = document.getElementById("wordCount1");
+    const wordCount2El = document.getElementById("wordCount2");
+
+    const studentNameEl = document.getElementById("studentName");
+    const studentGroupEl = document.getElementById("studentGroup");
+
+    const startTestBtn = document.getElementById("startTestBtn");
+    const pauseTimerBtn = document.getElementById("pauseTimerBtn");
+    const resetTestBtn = document.getElementById("resetTestBtn");
+
     const timerDisplayEl = document.getElementById("timerDisplay");
     const timeUsedEl = document.getElementById("timeUsed");
+    const violationCountLabelEl = document.getElementById("violationCountLabel");
     const statusTextEl = document.getElementById("statusText");
-    const startBtn = document.getElementById("startTimerBtn");
-    const pauseBtn = document.getElementById("pauseTimerBtn");
-    const resetBtn = document.getElementById("resetTimerBtn");
-    const studentNameEl = document.getElementById("studentName");
+
     const sendBtn = document.getElementById("sendBtn");
     const sendStatusSmallEl = document.getElementById("sendStatusSmall");
     const sendMessageEl = document.getElementById("sendMessage");
 
-    // ---------------- HELPERS ----------------
+    // ------------ HELPERS ------------
     function formatTime(sec) {
       const m = Math.floor(sec / 60);
       const s = sec % 60;
@@ -533,8 +577,7 @@ What are the reasons for this? Is this a positive or negative development?`,
     function updateTimerDisplay() {
       timerDisplayEl.textContent = formatTime(timerSeconds);
       timerDisplayEl.classList.remove("warning", "danger");
-      const total = TASKS[currentMode].defaultSeconds;
-      const ratio = timerSeconds / total;
+      const ratio = timerSeconds / TEST_DURATION_SECONDS;
       if (ratio <= 0.25) {
         timerDisplayEl.classList.add("danger");
       } else if (ratio <= 0.5) {
@@ -543,39 +586,69 @@ What are the reasons for this? Is this a positive or negative development?`,
       timeUsedEl.textContent = `${Math.floor(totalUsedSeconds / 60)} min`;
     }
 
-    function updateWordCount() {
-      const text = essayInputEl.value.trim();
-      const words =
-        text.length === 0 ? 0 : text.split(/\s+/).filter(Boolean).length;
-      wordCountEl.textContent = `${words} word${words === 1 ? "" : "s"}`;
+    function countWords(text) {
+      const trimmed = text.trim();
+      if (!trimmed) return 0;
+      return trimmed.split(/\s+/).filter(Boolean).length;
     }
 
     function setStatus(text, color = "#22c55e") {
       statusTextEl.innerHTML = `Status: <span style="color:${color}">${text}</span>`;
     }
 
-    // ---------------- MODE SWITCH ----------------
-    function loadMode(mode) {
-      currentMode = mode;
-      const cfg = TASKS[mode];
-
-      taskTitleEl.textContent = cfg.title;
-      badgeInfoEl.textContent = cfg.badge;
-      questionTextEl.textContent = cfg.question;
-      modeLabelEl.textContent = cfg.modeLabel;
-      wordTargetEl.textContent = cfg.targetWords;
-
-      stopTimer();
-      timerSeconds = cfg.defaultSeconds;
-      totalUsedSeconds = 0;
-      updateTimerDisplay();
-      setStatus("Ready");
-
-      essayInputEl.value = "";
-      updateWordCount();
+    function updateWordCounts() {
+      const wc1 = countWords(task1EssayEl.value);
+      const wc2 = countWords(task2EssayEl.value);
+      wordCount1El.textContent = `${wc1} word${wc1 === 1 ? "" : "s"}`;
+      wordCount2El.textContent = `${wc2} word${wc2 === 1 ? "" : "s"}`;
     }
 
-    // ---------------- TIMER ----------------
+    function resetTimerState() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      timerSeconds = TEST_DURATION_SECONDS;
+      totalUsedSeconds = 0;
+      lastTickTime = null;
+      updateTimerDisplay();
+    }
+
+    function resetTestCompletely(fromCheating = false) {
+      resetTimerState();
+      testStarted = false;
+      task1EssayEl.value = "";
+      task2EssayEl.value = "";
+      task1EssayEl.disabled = true;
+      task2EssayEl.disabled = true;
+      updateWordCounts();
+
+      startTestBtn.disabled = false;
+      pauseTimerBtn.disabled = true;
+      sendBtn.disabled = true;
+
+      violationCount = 0;
+      violationCountLabelEl.textContent = "0";
+      fastWriteState.task1 = {
+        lastCount: 0,
+        lastTime: Date.now(),
+      };
+      fastWriteState.task2 = {
+        lastCount: 0,
+        lastTime: Date.now(),
+      };
+
+      if (fromCheating) {
+        setStatus(
+          "Test restarted due to repeated cheating.",
+          "#f97373"
+        );
+      } else {
+        setStatus("Test reset.", "#facc15");
+      }
+    }
+
+    // ------------ TIMER ------------
     function startTimer() {
       if (timerInterval) return;
       lastTickTime = Date.now();
@@ -583,53 +656,258 @@ What are the reasons for this? Is this a positive or negative development?`,
         const now = Date.now();
         const diff = Math.round((now - lastTickTime) / 1000);
         lastTickTime = now;
-
         if (timerSeconds > 0) {
           timerSeconds = Math.max(0, timerSeconds - diff);
           totalUsedSeconds += diff;
           updateTimerDisplay();
         }
       }, 1000);
-      setStatus("Timer running…");
     }
 
-    function stopTimer() {
+    function pauseTimer() {
       if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
       }
     }
 
-    function pauseTimer() {
-      stopTimer();
-      setStatus("Paused", "#facc15");
+    // ------------ VIOLATIONS ------------
+    function registerViolation(type, message, extra = {}) {
+      const timestamp = new Date().toISOString();
+      violationCount += 1;
+      violationCountLabelEl.textContent = violationCount.toString();
+
+      const violation = {
+        type,
+        message,
+        timestamp,
+        totalViolationsNow: violationCount,
+        ...extra,
+      };
+      violationsLog.push(violation);
+
+      // Send to teacher via Telegram
+      sendViolationToTeacher(violation);
+
+      if (violationCount === 1) {
+        setStatus(
+          "Warning: cheating attempt detected (1/2). Next time test will restart.",
+          "#f97316"
+        );
+        alert(
+          "Warning: cheating detected.\nIf this happens again, your test will be restarted."
+        );
+      } else if (violationCount >= MAX_WARNINGS_BEFORE_RESET) {
+        alert(
+          "Your test has been restarted because of repeated cheating."
+        );
+        resetTestCompletely(true);
+      }
     }
 
-    function resetTimer() {
-      stopTimer();
-      timerSeconds = TASKS[currentMode].defaultSeconds;
-      totalUsedSeconds = 0;
-      updateTimerDisplay();
-      setStatus("Reset");
+    async function sendViolationToTeacher(violation) {
+      try {
+        const payload = {
+          eventType: "violation",
+          studentName: studentNameEl.value.trim() || null,
+          studentGroup: studentGroupEl.value.trim() || null,
+          elapsedMinutes: Math.floor(totalUsedSeconds / 60),
+          violation,
+        };
+
+        await fetch("/api/sendEssay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        // we don't block the UI on errors here
+      } catch (e) {
+        console.error("Failed to report violation", e);
+      }
     }
 
-    // ---------------- EVENTS ----------------
-    modeButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const mode = btn.dataset.mode;
-        loadMode(mode);
+    function handleFastWriting(taskId, text) {
+      if (!testStarted) return;
+      const now = Date.now();
+      const currentCount = countWords(text);
+      const state = fastWriteState[taskId];
+      const deltaWords = currentCount - state.lastCount;
+      const deltaSec = (now - state.lastTime) / 1000;
+
+      if (deltaWords >= FAST_WORD_THRESHOLD && deltaSec > 0 && deltaSec <= 1) {
+        registerViolation("fast_writing", `${taskId} wrote ${deltaWords} words in ~${deltaSec.toFixed(2)} second(s).`, {
+          taskId,
+          deltaWords,
+          deltaSeconds: deltaSec,
+          wordCountNow: currentCount,
+        });
+      }
+
+      state.lastCount = currentCount;
+      state.lastTime = now;
+    }
+
+    // ------------ EVENTS: TEXTAREAS ------------
+    function attachAntiCopyPaste(textarea, taskId) {
+      textarea.addEventListener("paste", (e) => {
+        e.preventDefault();
+        if (!testStarted) return;
+        registerViolation(
+          "paste_attempt",
+          `Attempted paste into ${taskId}.`
+        );
+        alert("Copy-paste is not allowed in this test.");
       });
+
+      textarea.addEventListener("copy", (e) => {
+        e.preventDefault();
+        if (!testStarted) return;
+        registerViolation(
+          "copy_attempt",
+          `Attempted copy from ${taskId}.`
+        );
+      });
+
+      textarea.addEventListener("cut", (e) => {
+        e.preventDefault();
+        if (!testStarted) return;
+        registerViolation(
+          "cut_attempt",
+          `Attempted cut from ${taskId}.`
+        );
+      });
+
+      textarea.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
+
+      textarea.addEventListener("keydown", (e) => {
+        if (e.metaKey || e.ctrlKey) {
+          const key = e.key.toLowerCase();
+          if (key === "v" || key === "c" || key === "x") {
+            e.preventDefault();
+            if (!testStarted) return;
+            registerViolation(
+              "shortcut_attempt",
+              `Keyboard shortcut ${key.toUpperCase()} used in ${taskId}.`
+            );
+          }
+        }
+      });
+    }
+
+    task1EssayEl.addEventListener("input", () => {
+      updateWordCounts();
+      handleFastWriting("task1", task1EssayEl.value);
     });
 
-    essayInputEl.addEventListener("input", updateWordCount);
-    startBtn.addEventListener("click", startTimer);
-    pauseBtn.addEventListener("click", pauseTimer);
-    resetBtn.addEventListener("click", resetTimer);
+    task2EssayEl.addEventListener("input", () => {
+      updateWordCounts();
+      handleFastWriting("task2", task2EssayEl.value);
+    });
 
+    attachAntiCopyPaste(task1EssayEl, "Task 1");
+    attachAntiCopyPaste(task2EssayEl, "Task 2");
+
+    // ------------ EVENTS: TAB / WINDOW SWITCH ------------
+    document.addEventListener("visibilitychange", () => {
+      if (!testStarted) return;
+      if (document.hidden) {
+        const now = Date.now();
+        if (now - lastFocusViolationTime > 2000) {
+          lastFocusViolationTime = now;
+          registerViolation(
+            "screen_switch",
+            "Student left the test tab (visibilitychange)."
+          );
+        }
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      if (!testStarted) return;
+      const now = Date.now();
+      if (now - lastFocusViolationTime > 2000) {
+        lastFocusViolationTime = now;
+        registerViolation(
+          "screen_switch",
+          "Student left the test window (blur)."
+        );
+      }
+    });
+
+    // ------------ EVENTS: CONTROL BUTTONS ------------
+    startTestBtn.addEventListener("click", () => {
+      const name = studentNameEl.value.trim();
+      const group = studentGroupEl.value.trim();
+
+      if (!name || !group) {
+        setStatus(
+          "Please write your name and group before starting.",
+          "#f97373"
+        );
+        alert("Please enter your full name and group before starting the test.");
+        return;
+      }
+
+      testStarted = true;
+      startTestBtn.disabled = true;
+      pauseTimerBtn.disabled = false;
+      sendBtn.disabled = false;
+
+      task1EssayEl.disabled = false;
+      task2EssayEl.disabled = false;
+
+      setStatus("Test started. Good luck!");
+      resetTimerState(); // fresh timer
+      startTimer();
+    });
+
+    pauseTimerBtn.addEventListener("click", () => {
+      if (!testStarted) return;
+      if (timerInterval) {
+        pauseTimer();
+        pauseTimerBtn.textContent = "Resume timer";
+        setStatus("Timer paused. You may continue writing.", "#facc15");
+      } else {
+        startTimer();
+        pauseTimerBtn.textContent = "Pause timer";
+        setStatus("Timer running…");
+      }
+    });
+
+    resetTestBtn.addEventListener("click", () => {
+      if (
+        confirm(
+          "Are you sure you want to reset the test? All answers will be deleted."
+        )
+      ) {
+        resetTestCompletely(false);
+      }
+    });
+
+    // ------------ SEND ANSWERS ------------
     sendBtn.addEventListener("click", async () => {
-      const text = essayInputEl.value.trim();
-      if (!text) {
-        sendMessageEl.textContent = "Please write your essay before sending.";
+      if (!testStarted) {
+        sendMessageEl.textContent = "You must start the test first.";
+      sendMessageEl.className = "message error";
+        return;
+      }
+
+      const name = studentNameEl.value.trim();
+      const group = studentGroupEl.value.trim();
+      const t1 = task1EssayEl.value.trim();
+      const t2 = task2EssayEl.value.trim();
+
+      if (!name || !group) {
+        sendMessageEl.textContent = "Name and group are required.";
+        sendMessageEl.className = "message error";
+        return;
+      }
+
+      if (!t1 || !t2) {
+        sendMessageEl.textContent =
+          "Please complete both Task 1 and Task 2 before sending.";
         sendMessageEl.className = "message error";
         return;
       }
@@ -641,12 +919,25 @@ What are the reasons for this? Is this a positive or negative development?`,
 
       try {
         const payload = {
-          mode: currentMode,
-          question: TASKS[currentMode].question,
-          essay: text,
-          wordCount: text.split(/\s+/).filter(Boolean).length,
+          eventType: "submission",
+          studentName: name,
+          studentGroup: group,
+          task1: {
+            question:
+              "The line graph shows the number of people who used different communication services in the world.",
+            answer: t1,
+            wordCount: countWords(t1),
+          },
+          task2: {
+            question:
+              "If a product is good or it meets people's needs, people will buy it so advertising is unnecessary. To what extent do you agree or disagree?",
+            answer: t2,
+            wordCount: countWords(t2),
+          },
           usedMinutes: Math.floor(totalUsedSeconds / 60),
-          studentName: studentNameEl.value.trim() || null,
+          remainingMinutes: Math.floor(timerSeconds / 60),
+          totalViolations: violationCount,
+          violationsLog,
         };
 
         const res = await fetch("/api/sendEssay", {
@@ -656,27 +947,29 @@ What are the reasons for this? Is this a positive or negative development?`,
         });
 
         if (!res.ok) throw new Error("Network response not ok");
-
         const data = await res.json();
         if (data.ok) {
           sendStatusSmallEl.textContent = "Sent ✔";
           sendMessageEl.textContent =
-            "Your essay was successfully sent to your teacher’s Telegram.";
+            "Your answers were successfully sent to your teacher’s Telegram.";
           sendMessageEl.className = "message success";
+          setStatus("Submission sent.", "#22c55e");
         } else {
           throw new Error(data.error || "Unknown error");
         }
       } catch (err) {
+        console.error(err);
         sendStatusSmallEl.textContent = "Error";
-        sendMessageEl.textContent = "Could not send essay. Please try again.";
+        sendMessageEl.textContent =
+          "Could not send answers. Please try again or contact your teacher.";
         sendMessageEl.className = "message error";
       } finally {
         sendBtn.disabled = false;
       }
     });
 
-    // ---------------- INIT ----------------
-    loadMode("task2");
+    // ------------ INIT ------------
+    resetTestCompletely(false);
   </script>
 </body>
 </html>
