@@ -6,14 +6,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const {
-      mode,
-      question,
-      essay,
-      wordCount,
-      usedMinutes,
-      studentName,
-    } = req.body || {};
+    const body = req.body || {};
+    const eventType = body.eventType || "submission";
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -24,21 +18,88 @@ export default async function handler(req, res) {
         .json({ ok: false, error: "Telegram env vars missing" });
     }
 
-    const modeLabel = mode === "task1" ? "Task 1" : "Task 2";
-
-    const header = studentName
-      ? `✍️ New IELTS writing from *${escapeMarkdown(studentName)}*\n`
-      : "✍️ New IELTS writing submission\n";
-
-    const text =
-      header +
-      `Mode: *${modeLabel}*\n` +
-      `Word count: *${wordCount}*\n` +
-      `Time used: *${usedMinutes}* minutes\n\n` +
-      `*Question:*\n${escapeMarkdown(question)}\n\n` +
-      `*Essay:*\n${escapeMarkdown(essay)}`;
-
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+    let text;
+
+    if (eventType === "violation") {
+      const {
+        studentName,
+        studentGroup,
+        elapsedMinutes,
+        violation = {},
+      } = body;
+
+      const name = studentName ? escapeMarkdown(studentName) : "Unknown";
+      const group = studentGroup ? escapeMarkdown(studentGroup) : "Unknown";
+
+      text =
+        `⚠️ *IELTS Writing Test – Violation*\n` +
+        `Student: *${name}*\n` +
+        `Group: *${group}*\n` +
+        `Elapsed time: *${elapsedMinutes ?? 0}* minute(s)\n\n` +
+        `Type: *${escapeMarkdown(violation.type || "unknown")}*\n` +
+        `Message: ${escapeMarkdown(violation.message || "")}\n` +
+        (violation.timestamp
+          ? `Time: ${escapeMarkdown(violation.timestamp)}\n`
+          : "") +
+        (violation.totalViolationsNow !== undefined
+          ? `Total violations now: *${violation.totalViolationsNow}*`
+          : "");
+    } else {
+      // SUBMISSION
+      const {
+        studentName,
+        studentGroup,
+        task1,
+        task2,
+        usedMinutes,
+        remainingMinutes,
+        totalViolations,
+        violationsLog,
+      } = body;
+
+      const name = studentName ? escapeMarkdown(studentName) : "Unknown";
+      const group = studentGroup ? escapeMarkdown(studentGroup) : "Unknown";
+
+      const t1Question = task1?.question || "";
+      const t1Answer = task1?.answer || "";
+      const t1Words = task1?.wordCount ?? 0;
+
+      const t2Question = task2?.question || "";
+      const t2Answer = task2?.answer || "";
+      const t2Words = task2?.wordCount ?? 0;
+
+      let violationsPart = "";
+      if (Array.isArray(violationsLog) && violationsLog.length > 0) {
+        const mapped = violationsLog
+          .slice(0, 10) // avoid too long messages
+          .map((v, i) => {
+            const t = v.timestamp ? ` [${v.timestamp}]` : "";
+            return `${i + 1}. ${v.type || "unknown"}${t} – ${
+              v.message || ""
+            }`;
+          })
+          .join("\n");
+        violationsPart =
+          `\n\n*Violations (${totalViolations ?? 0}):*\n` +
+          escapeMarkdown(mapped);
+      }
+
+      text =
+        `✍️ *IELTS Writing Submission*\n` +
+        `Student: *${name}*\n` +
+        `Group: *${group}*\n` +
+        `Time used: *${usedMinutes ?? 0}* minute(s)\n` +
+        `Time left: *${remainingMinutes ?? 0}* minute(s)\n` +
+        `Total violations: *${totalViolations ?? 0}*` +
+        `\n\n*Task 1 Question:*\n${escapeMarkdown(t1Question)}\n\n` +
+        `*Task 1 Answer* (words: ${t1Words}):\n${escapeMarkdown(t1Answer)}\n\n` +
+        `*Task 2 Question:*\n${escapeMarkdown(t2Question)}\n\n` +
+        `*Task 2 Answer* (words: ${t2Words}):\n${escapeMarkdown(
+          t2Answer
+        )}${violationsPart}`;
+    }
 
     const tgRes = await fetch(url, {
       method: "POST",
