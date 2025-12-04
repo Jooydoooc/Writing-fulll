@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "api/sendEssay.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/sendEssay", "dest": "/api/sendEssay.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
