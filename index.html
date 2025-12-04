@@ -100,12 +100,6 @@
       }
     }
 
-    .tasks-column {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
     .card {
       background: rgba(15, 23, 42, 0.9);
       border-radius: 14px;
@@ -138,6 +132,56 @@
       white-space: nowrap;
     }
 
+    .tasks-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      padding-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.15s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .tab-btn span.badge-mini {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .task-screen {
+      display: none;
+    }
+
+    .task-screen.active {
+      display: block;
+    }
+
     .question {
       font-size: 0.88rem;
       line-height: 1.45;
@@ -159,7 +203,7 @@
 
     textarea {
       width: 100%;
-      min-height: 320px; /* higher writing area */
+      min-height: 360px; /* higher writing area */
       resize: vertical;
       border-radius: 12px;
       border: 1px solid rgba(148, 163, 184, 0.5);
@@ -177,13 +221,13 @@
 
     @media (max-width: 900px) {
       textarea {
-        min-height: 280px;
+        min-height: 320px;
       }
     }
 
     @media (max-height: 750px) and (max-width: 900px) {
       textarea {
-        min-height: 220px;
+        min-height: 260px;
       }
     }
 
@@ -350,6 +394,7 @@
       color: #9ca3af;
       line-height: 1.45;
       padding-left: 16px;
+      margin-top: 6px;
     }
 
     .rules-list li {
@@ -375,10 +420,21 @@
     </header>
 
     <main class="layout">
-      <!-- LEFT: TASKS -->
+      <!-- LEFT: TASK SCREENS WITH SWITCHER -->
       <section class="tasks-column">
-        <!-- TASK 1 -->
-        <article class="card">
+        <div class="task-tabs">
+          <button class="tab-btn active" data-task-tab="task1">
+            Task 1
+            <span class="badge-mini">150+ words · 20 min</span>
+          </button>
+          <button class="tab-btn" data-task-tab="task2">
+            Task 2
+            <span class="badge-mini">250+ words · 40 min</span>
+          </button>
+        </div>
+
+        <!-- TASK 1 SCREEN -->
+        <article class="card task-screen active" data-task-screen="task1">
           <div class="card-header">
             <div class="card-title">Task 1 – Line Graph (150+ words)</div>
             <div class="badge">Recommended: 20 minutes</div>
@@ -410,8 +466,8 @@ Summarise the information by selecting and reporting the main features, and make
           </div>
         </article>
 
-        <!-- TASK 2 -->
-        <article class="card">
+        <!-- TASK 2 SCREEN -->
+        <article class="card task-screen" data-task-screen="task2">
           <div class="card-header">
             <div class="card-title">Task 2 – Opinion Essay (250+ words)</div>
             <div class="badge">Recommended: 40 minutes</div>
@@ -433,18 +489,27 @@ To what extent do you agree or disagree?
         </article>
       </section>
 
-      <!-- RIGHT: CONTROLS, RULES, SEND -->
+      <!-- RIGHT: LOGIN (NAME+GROUP+RULES+TIMER) + SEND -->
       <aside class="side-section">
-        <!-- STUDENT INFO & TIMER -->
+        <!-- LOGIN / RULES / TIMER -->
         <section class="card">
           <div class="card-header">
-            <div class="card-title">Student Info &amp; Test Control</div>
+            <div class="card-title">Log in &amp; Test Rules</div>
           </div>
 
           <div class="small-text">
-            Please enter your name and group, then click <strong>Start test</strong>.
-            You cannot write before starting.
+            Please read the rules carefully. Then enter your name and group, and click
+            <strong>Start test</strong>. You cannot write before starting.
           </div>
+
+          <ul class="rules-list">
+            <li>Do not switch tabs, windows, or apps during the test.</li>
+            <li>Copy–paste (copy, cut, paste, Ctrl/⌘+C/V/X) is disabled.</li>
+            <li>Very fast writing (e.g. 15+ words in 1 second) is a violation.</li>
+            <li>First and second violations: you receive warnings.</li>
+            <li>On the third violation, your test will be restarted.</li>
+            <li>All violations are reported to the teacher via Telegram.</li>
+          </ul>
 
           <div class="input-row">
             <input id="studentName" type="text" placeholder="Full name" />
@@ -487,21 +552,6 @@ To what extent do you agree or disagree?
           </div>
         </section>
 
-        <!-- RULES -->
-        <section class="card">
-          <div class="card-header">
-            <div class="card-title">Test Rules</div>
-          </div>
-          <ul class="rules-list">
-            <li>Do not switch tabs, windows, or apps during the test.</li>
-            <li>Copy–paste is completely disabled.</li>
-            <li>Very fast writing (e.g. 15+ words in 1 second) is a violation.</li>
-            <li>First violation: you get a warning.</li>
-            <li>Second violation: your test is restarted.</li>
-            <li>All violations are reported to the teacher via Telegram.</li>
-          </ul>
-        </section>
-
         <!-- SEND -->
         <section class="card">
           <div class="card-header">
@@ -528,7 +578,7 @@ To what extent do you agree or disagree?
     // ------------ CONFIG ------------
     const TEST_DURATION_SECONDS = 60 * 60; // 60 minutes
     const FAST_WORD_THRESHOLD = 15; // 15 words in <=1 second
-    const MAX_WARNINGS_BEFORE_RESET = 2;
+    const MAX_WARNINGS_BEFORE_RESET = 3; // 1st & 2nd = warnings, 3rd = reset
 
     // ------------ STATE ------------
     let timerSeconds = TEST_DURATION_SECONDS;
@@ -566,6 +616,9 @@ To what extent do you agree or disagree?
     const sendBtn = document.getElementById("sendBtn");
     const sendStatusSmallEl = document.getElementById("sendStatusSmall");
     const sendMessageEl = document.getElementById("sendMessage");
+
+    const tabButtons = document.querySelectorAll("[data-task-tab]");
+    const taskScreens = document.querySelectorAll("[data-task-screen]");
 
     // ------------ HELPERS ------------
     function formatTime(sec) {
@@ -625,10 +678,13 @@ To what extent do you agree or disagree?
 
       startTestBtn.disabled = false;
       pauseTimerBtn.disabled = true;
+      pauseTimerBtn.textContent = "Pause timer";
       sendBtn.disabled = true;
 
       violationCount = 0;
       violationCountLabelEl.textContent = "0";
+      violationsLog = [];
+
       fastWriteState.task1 = {
         lastCount: 0,
         lastTime: Date.now(),
@@ -640,7 +696,7 @@ To what extent do you agree or disagree?
 
       if (fromCheating) {
         setStatus(
-          "Test restarted due to repeated cheating.",
+          "Test restarted due to repeated cheating (3 violations).",
           "#f97373"
         );
       } else {
@@ -671,6 +727,32 @@ To what extent do you agree or disagree?
       }
     }
 
+    // ------------ TASK TAB SWITCHING ------------
+    function setActiveTaskScreen(taskId) {
+      taskScreens.forEach((screen) => {
+        if (screen.getAttribute("data-task-screen") === taskId) {
+          screen.classList.add("active");
+        } else {
+          screen.classList.remove("active");
+        }
+      });
+
+      tabButtons.forEach((btn) => {
+        if (btn.getAttribute("data-task-tab") === taskId) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+    }
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-task-tab");
+        setActiveTaskScreen(id);
+      });
+    });
+
     // ------------ VIOLATIONS ------------
     function registerViolation(type, message, extra = {}) {
       const timestamp = new Date().toISOString();
@@ -689,17 +771,17 @@ To what extent do you agree or disagree?
       // Send to teacher via Telegram
       sendViolationToTeacher(violation);
 
-      if (violationCount === 1) {
+      if (violationCount === 1 || violationCount === 2) {
         setStatus(
-          "Warning: cheating attempt detected (1/2). Next time test will restart.",
+          `Warning: cheating attempt detected (${violationCount}/2). On the 3rd time, your test will restart.`,
           "#f97316"
         );
         alert(
-          "Warning: cheating detected.\nIf this happens again, your test will be restarted."
+          `Warning: cheating detected.\nWarning ${violationCount} of 2.\nOn the 3rd violation, your test will be restarted.`
         );
       } else if (violationCount >= MAX_WARNINGS_BEFORE_RESET) {
         alert(
-          "Your test has been restarted because of repeated cheating."
+          "Your test has been restarted because of repeated cheating (3 violations)."
         );
         resetTestCompletely(true);
       }
@@ -720,7 +802,6 @@ To what extent do you agree or disagree?
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        // we don't block the UI on errors here
       } catch (e) {
         console.error("Failed to report violation", e);
       }
@@ -735,19 +816,25 @@ To what extent do you agree or disagree?
       const deltaSec = (now - state.lastTime) / 1000;
 
       if (deltaWords >= FAST_WORD_THRESHOLD && deltaSec > 0 && deltaSec <= 1) {
-        registerViolation("fast_writing", `${taskId} wrote ${deltaWords} words in ~${deltaSec.toFixed(2)} second(s).`, {
-          taskId,
-          deltaWords,
-          deltaSeconds: deltaSec,
-          wordCountNow: currentCount,
-        });
+        registerViolation(
+          "fast_writing",
+          `${taskId} wrote ${deltaWords} words in ~${deltaSec.toFixed(
+            2
+          )} second(s).`,
+          {
+            taskId,
+            deltaWords,
+            deltaSeconds: deltaSec,
+            wordCountNow: currentCount,
+          }
+        );
       }
 
       state.lastCount = currentCount;
       state.lastTime = now;
     }
 
-    // ------------ EVENTS: TEXTAREAS ------------
+    // ------------ TEXTAREA EVENTS ------------
     function attachAntiCopyPaste(textarea, taskId) {
       textarea.addEventListener("paste", (e) => {
         e.preventDefault();
@@ -809,7 +896,7 @@ To what extent do you agree or disagree?
     attachAntiCopyPaste(task1EssayEl, "Task 1");
     attachAntiCopyPaste(task2EssayEl, "Task 2");
 
-    // ------------ EVENTS: TAB / WINDOW SWITCH ------------
+    // ------------ TAB / WINDOW SWITCH ------------
     document.addEventListener("visibilitychange", () => {
       if (!testStarted) return;
       if (document.hidden) {
@@ -836,7 +923,7 @@ To what extent do you agree or disagree?
       }
     });
 
-    // ------------ EVENTS: CONTROL BUTTONS ------------
+    // ------------ CONTROL BUTTONS ------------
     startTestBtn.addEventListener("click", () => {
       const name = studentNameEl.value.trim();
       const group = studentGroupEl.value.trim();
@@ -890,7 +977,7 @@ To what extent do you agree or disagree?
     sendBtn.addEventListener("click", async () => {
       if (!testStarted) {
         sendMessageEl.textContent = "You must start the test first.";
-      sendMessageEl.className = "message error";
+        sendMessageEl.className = "message error";
         return;
       }
 
@@ -969,6 +1056,7 @@ To what extent do you agree or disagree?
     });
 
     // ------------ INIT ------------
+    setActiveTaskScreen("task1");
     resetTestCompletely(false);
   </script>
 </body>
