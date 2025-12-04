@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IELTS Writing Trainer</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      background: #020617;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 16px 14px 20px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .mode-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: radial-gradient(
+        circle at top left,
+        rgba(56, 189, 248, 0.18),
+        transparent 55%
+      );
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: 0.15s ease;
+      min-height: 36px;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      border-color: transparent;
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn.small {
+      font-size: 0.82rem;
+      padding: 6px 10px;
+      min-height: 34px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+
+      .app {
+        padding: 12px 10px 14px;
+        border-radius: 12px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .title {
+        font-size: 1.1rem;
+      }
+
+      .subtitle {
+        font-size: 0.78rem;
+      }
+
+      .layout {
+        gap: 12px;
+      }
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 14px;
+      padding: 14px 12px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.36);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      color: #bae6fd;
+      white-space: nowrap;
+    }
+
+    .question {
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #d1d5db;
+      white-space: pre-line;
+    }
+
+    .textarea-wrapper {
+      position: relative;
+      margin-top: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.9),
+        #020617
+      );
+      color: #e5e7eb;
+      padding: 10px 11px 26px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      outline: none;
+    }
+
+    @media (max-height: 750px) and (max-width: 900px) {
+      textarea {
+        min-height: 200px;
+      }
+    }
+
+    textarea:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    }
+
+    .word-count {
+      position: absolute;
+      bottom: 6px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .side-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #e5e7eb;
+      gap: 6px;
+    }
+
+    .stat-label {
+      color: #9ca3af;
+    }
+
+    .timer {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .timer.warning {
+      color: #facc15;
+    }
+
+    .timer.danger {
+      color: #f97373;
+    }
+
+    .status {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .status span {
+      color: #22c55e;
+    }
+
+    .sample-box {
+      max-height: 180px;
+      overflow: auto;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #cbd5f5;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: radial-gradient(
+        circle at top left,
+        rgba(56, 189, 248, 0.14),
+        rgba(15, 23, 42, 0.96)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .sample-box {
+        max-height: 140px;
+      }
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-text {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .input-row input {
+      flex: 1;
+      min-width: 0;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      padding: 7px 10px;
+    }
+
+    .input-row input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
+    .message {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      min-height: 1.1em;
+    }
+
+    .message.success {
+      color: #4ade80;
+    }
+
+    .message.error {
+      color: #fca5a5;
+    }
+
+    @media (max-width: 420px) {
+      .mode-buttons {
+        width: 100%;
+      }
+
+      .mode-buttons .btn {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div>
+        <div class="title">IELTS Writing Trainer</div>
+        <div class="subtitle">
+          Task 1 &amp; Task 2 · Timer · Word count · Send essays to Telegram
+        </div>
+      </div>
+      <div class="mode-buttons">
+        <button class="btn small" data-mode="task1">Task 1 (Academic)</button>
+        <button class="btn small" data-mode="task2">Task 2 (Essay)</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title" id="taskTitle">Task 2 – Opinion Essay</div>
+          <div class="badge" id="badgeInfo">40 minutes · 250+ words</div>
+        </div>
+        <div class="question" id="questionText">
+          Newspapers have an enormous influence on people’s opinions and ideas.
+          What are the reasons for this? Is this a positive or negative
+          development?
+        </div>
+
+        <div class="textarea-wrapper">
+          <textarea
+            id="essayInput"
+            placeholder="Write your essay here..."
+          ></textarea>
+          <div class="word-count" id="wordCount">0 words</div>
+        </div>
+      </section>
+
+      <aside class="side-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Timer &amp; Stats</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Mode</div>
+            <div id="modeLabel">Task 2</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Target words</div>
+            <div id="wordTarget">250+</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Time left</div>
+            <div class="timer" id="timerDisplay">40:00</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label">Time used</div>
+            <div id="timeUsed">0 min</div>
+          </div>
+          <div class="status" id="statusText">
+            Status: <span>Ready</span>
+          </div>
+          <div
+            style="
+              margin-top: 10px;
+              display: flex;
+              gap: 6px;
+              flex-wrap: wrap;
+            "
+          >
+            <button class="btn small primary" id="startTimerBtn">Start</button>
+            <button class="btn small" id="pauseTimerBtn">Pause</button>
+            <button class="btn small" id="resetTimerBtn">Reset</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Quick model / ideas</div>
+          </div>
+          <div class="sample-box" id="sampleBox">
+            <strong>Idea structure (Task 2):</strong>
+            <br /><br />
+            ➤ Introduction: paraphrase the topic + opinion<br />
+            ➤ Body 1: reasons why newspapers influence people<br />
+            ➤ Body 2: explain why this is positive / negative<br />
+            ➤ Conclusion: summary + clear opinion<br /><br />
+            Use linking phrases: in addition, moreover, on the other hand, as a
+            result, in conclusion...
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Send to teacher (Telegram)</div>
+          </div>
+          <div class="small-text">
+            Your essay will be sent as a single message to your teacher’s
+            Telegram.
+          </div>
+          <div class="input-row">
+            <input
+              id="studentName"
+              type="text"
+              placeholder="Your name (optional)"
+            />
+          </div>
+          <div class="footer-row">
+            <button class="btn primary" id="sendBtn">Send essay</button>
+            <div class="small-text" id="sendStatusSmall">Not sent yet</div>
+          </div>
+          <div class="message" id="sendMessage"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // ---------------- CONFIG ----------------
+    const TASKS = {
+      task1: {
+        title: "Task 1 – Academic (Graph / Chart)",
+        badge: "20 minutes · 150+ words",
+        modeLabel: "Task 1",
+        targetWords: "150+",
+        defaultSeconds: 20 * 60,
+        question: `The diagram illustrates different stages which are required to generate hydro-electric power using water.
+
+Summarise the information by selecting and reporting the main features, and make comparisons where relevant.`,
+      },
+      task2: {
+        title: "Task 2 – Opinion Essay",
+        badge: "40 minutes · 250+ words",
+        modeLabel: "Task 2",
+        targetWords: "250+",
+        defaultSeconds: 40 * 60,
+        question: `Newspapers have an enormous influence on people’s opinions and ideas.
+What are the reasons for this? Is this a positive or negative development?`,
+      },
+    };
+
+    // ---------------- STATE ----------------
+    let currentMode = "task2";
+    let timerSeconds = TASKS[currentMode].defaultSeconds;
+    let timerInterval = null;
+    let totalUsedSeconds = 0;
+    let lastTickTime = null;
+
+    // ---------------- ELEMENTS ----------------
+    const modeButtons = document.querySelectorAll("[data-mode]");
+    const taskTitleEl = document.getElementById("taskTitle");
+    const badgeInfoEl = document.getElementById("badgeInfo");
+    const questionTextEl = document.getElementById("questionText");
+    const essayInputEl = document.getElementById("essayInput");
+    const wordCountEl = document.getElementById("wordCount");
+    const modeLabelEl = document.getElementById("modeLabel");
+    const wordTargetEl = document.getElementById("wordTarget");
+    const timerDisplayEl = document.getElementById("timerDisplay");
+    const timeUsedEl = document.getElementById("timeUsed");
+    const statusTextEl = document.getElementById("statusText");
+    const startBtn = document.getElementById("startTimerBtn");
+    const pauseBtn = document.getElementById("pauseTimerBtn");
+    const resetBtn = document.getElementById("resetTimerBtn");
+    const studentNameEl = document.getElementById("studentName");
+    const sendBtn = document.getElementById("sendBtn");
+    const sendStatusSmallEl = document.getElementById("sendStatusSmall");
+    const sendMessageEl = document.getElementById("sendMessage");
+
+    // ---------------- HELPERS ----------------
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function updateTimerDisplay() {
+      timerDisplayEl.textContent = formatTime(timerSeconds);
+      timerDisplayEl.classList.remove("warning", "danger");
+      const total = TASKS[currentMode].defaultSeconds;
+      const ratio = timerSeconds / total;
+      if (ratio <= 0.25) {
+        timerDisplayEl.classList.add("danger");
+      } else if (ratio <= 0.5) {
+        timerDisplayEl.classList.add("warning");
+      }
+      timeUsedEl.textContent = `${Math.floor(totalUsedSeconds / 60)} min`;
+    }
+
+    function updateWordCount() {
+      const text = essayInputEl.value.trim();
+      const words =
+        text.length === 0 ? 0 : text.split(/\s+/).filter(Boolean).length;
+      wordCountEl.textContent = `${words} word${words === 1 ? "" : "s"}`;
+    }
+
+    function setStatus(text, color = "#22c55e") {
+      statusTextEl.innerHTML = `Status: <span style="color:${color}">${text}</span>`;
+    }
+
+    // ---------------- MODE SWITCH ----------------
+    function loadMode(mode) {
+      currentMode = mode;
+      const cfg = TASKS[mode];
+
+      taskTitleEl.textContent = cfg.title;
+      badgeInfoEl.textContent = cfg.badge;
+      questionTextEl.textContent = cfg.question;
+      modeLabelEl.textContent = cfg.modeLabel;
+      wordTargetEl.textContent = cfg.targetWords;
+
+      stopTimer();
+      timerSeconds = cfg.defaultSeconds;
+      totalUsedSeconds = 0;
+      updateTimerDisplay();
+      setStatus("Ready");
+
+      essayInputEl.value = "";
+      updateWordCount();
+    }
+
+    // ---------------- TIMER ----------------
+    function startTimer() {
+      if (timerInterval) return;
+      lastTickTime = Date.now();
+      timerInterval = setInterval(() => {
+        const now = Date.now();
+        const diff = Math.round((now - lastTickTime) / 1000);
+        lastTickTime = now;
+
+        if (timerSeconds > 0) {
+          timerSeconds = Math.max(0, timerSeconds - diff);
+          totalUsedSeconds += diff;
+          updateTimerDisplay();
+        }
+      }, 1000);
+      setStatus("Timer running…");
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function pauseTimer() {
+      stopTimer();
+      setStatus("Paused", "#facc15");
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timerSeconds = TASKS[currentMode].defaultSeconds;
+      totalUsedSeconds = 0;
+      updateTimerDisplay();
+      setStatus("Reset");
+    }
+
+    // ---------------- EVENTS ----------------
+    modeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+        loadMode(mode);
+      });
+    });
+
+    essayInputEl.addEventListener("input", updateWordCount);
+    startBtn.addEventListener("click", startTimer);
+    pauseBtn.addEventListener("click", pauseTimer);
+    resetBtn.addEventListener("click", resetTimer);
+
+    sendBtn.addEventListener("click", async () => {
+      const text = essayInputEl.value.trim();
+      if (!text) {
+        sendMessageEl.textContent = "Please write your essay before sending.";
+        sendMessageEl.className = "message error";
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendStatusSmallEl.textContent = "Sending…";
+      sendMessageEl.textContent = "";
+      sendMessageEl.className = "message";
+
+      try {
+        const payload = {
+          mode: currentMode,
+          question: TASKS[currentMode].question,
+          essay: text,
+          wordCount: text.split(/\s+/).filter(Boolean).length,
+          usedMinutes: Math.floor(totalUsedSeconds / 60),
+          studentName: studentNameEl.value.trim() || null,
+        };
+
+        const res = await fetch("/api/sendEssay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error("Network response not ok");
+
+        const data = await res.json();
+        if (data.ok) {
+          sendStatusSmallEl.textContent = "Sent ✔";
+          sendMessageEl.textContent =
+            "Your essay was successfully sent to your teacher’s Telegram.";
+          sendMessageEl.className = "message success";
+        } else {
+          throw new Error(data.error || "Unknown error");
+        }
+      } catch (err) {
+        sendStatusSmallEl.textContent = "Error";
+        sendMessageEl.textContent = "Could not send essay. Please try again.";
+        sendMessageEl.className = "message error";
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+
+    // ---------------- INIT ----------------
+    loadMode("task2");
+  </script>
+</body>
+</html>
